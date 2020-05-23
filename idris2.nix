@@ -1,4 +1,4 @@
-{ mkDerivation, fetchFromGitHub, lib
+{ mkDerivation, fetchFromGitHub, lib, makeWrapper
 , clang, chez
 }:
 
@@ -8,6 +8,7 @@ mkDerivation {
   name = "idris2";
   version = "0.2.0";
 
+  nativeBuildInputs = [ makeWrapper ];
   buildInputs = [ clang chez ];
 
   prePatch = ''
@@ -16,8 +17,13 @@ mkDerivation {
 
   makeFlags = "PREFIX=$(out)";
 
-  # The name of the main executable of pkgs.chez is `scheme`
-  buildFlags = "bootstrap SCHEME=scheme";
+  # The name of the main executable of chez is `scheme`
+  buildFlags = ''bootstrap SCHEME=scheme'';
+
+  # idris2 needs to find scheme at runtime to compile
+  postInstall = ''
+    wrapProgram "$out/bin/idris2" --prefix PATH : "${chez}/bin"
+  '';
 
   src = fetchFromGitHub {
     owner = "idris-lang";
