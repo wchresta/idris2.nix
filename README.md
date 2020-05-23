@@ -15,19 +15,19 @@ This is a very scrappy nix derivation for [Idris2](https://github.com/edwinb/Idr
 
 ```
 $ idris2
-     ____    __     _         ___                                           
-    /  _/___/ /____(_)____   |__ \                                          
-    / // __  / ___/ / ___/   __/ /     Version 0.0.0
-  _/ // /_/ / /  / (__  )   / __/      http://www.idris-lang.org            
- /___/\__,_/_/  /_/____/   /____/                                           
+     ____    __     _         ___
+    /  _/___/ /____(_)____   |__ \
+    / // __  / ___/ / ___/   __/ /     Version 0.2.0
+  _/ // /_/ / /  / (__  )   / __/      https://www.idris-lang.org
+ /___/\__,_/_/  /_/____/   /____/      Type :? for help
 
 Welcome to Idris 2.  Enjoy yourself!
+Main>
 ```
 
 ## What else?
 
 Remember that *Idris2* is still under heavy development. **DO NOT** expect *any* of this to work at *any* time.
 
-There are a few hacks we did to make this work; namely we omit the *network* tests because they do not play well with nix's build-chroot. If you are able to fix this, don't hesitate to CR.
+The present nix derivation uses the `make bootstrap SCHEME=chez` style to compile idris2 from the included bootstrap scheme.
 
-Also, we put no effort into fine tuning the build flags (e.g. `cclang` or fiddling with the optimizer options).

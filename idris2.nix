@@ -1,35 +1,35 @@
-{ pkgs ? import <nixpkgs> {}, stdenv ? pkgs.stdenv, idrisPackages ? pkgs.idrisPackages }:
+{ mkDerivation, fetchFromGitHub, lib
+, clang, chez
+}:
 
-let
-  idris-builder = idrisPackages.with-packages (with idrisPackages; [ contrib ]);
-in stdenv.mkDerivation {
+# Uses scheme to bootstrap the build of idris2
+
+mkDerivation {
   name = "idris2";
-  version = "0.0.0";
+  version = "0.2.0";
 
-  buildInputs = [ idris-builder ];
+  buildInputs = [ clang chez ];
 
   prePatch = ''
     patchShebangs --build tests
   '';
 
-  patches = [
-    ./0000-Makefile.patch  # Deactivate network tests
-  ];
-
   makeFlags = "PREFIX=$(out)";
-  buildFlags = "idris2";
 
-  src = pkgs.fetchFromGitHub {
-    owner = "edwinb";
+  # The name of the main executable of pkgs.chez is `scheme`
+  buildFlags = "bootstrap SCHEME=scheme";
+
+  src = fetchFromGitHub {
+    owner = "idris-lang";
     repo = "Idris2";
-    rev = "ab98b4d3c93a6c1da0a1592ed242a3fc5d700635";
-    sha256 = "1d0w0ywibg6nzllc6i08rfmgysab4sgw4ca7nlzilrcqqlgg15xi";
+    rev = "840e020d8ccc332135e86f855ad78053ca15d603";
+    sha256 = "1l6pdjiglwd13pf56xwzbjzyyxgz48ypfggjgsgqk2w57rmbfy90";
   };
 
-  meta = with stdenv.lib; {
+  meta = {
     description = "Idris2";
-    homepage = https://github.com/edwinb/Idris2;
-    license = licenses.mit;
+    homepage = https://github.com/idris-lang/Idris2;
+    license = lib.licenses.mit;
     maintainers = [ ];
   };
 }
