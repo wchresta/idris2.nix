@@ -4,7 +4,7 @@ idris2 has been included in nixpkgs: https://github.com/NixOS/nixpkgs/blob/maste
 
 Do not install from this repository and use the official nix-channel instead.
 
-Just do `nix-env -iA idris2`
+Just do `nix-env -i idris2`
 
 If that doesn't work, you might need to install it from `nixpkgs-unstable` / `nixos-unstable`.
 
